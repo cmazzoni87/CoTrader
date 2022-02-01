@@ -69,6 +69,39 @@ def bollinger_bands(df, window=20):
     return df
 
 
+#function to calculate the MACD
+def macd(df, short_window=12, long_window=26, signal_window=9):
+    """
+    Calculate the MACD of a stock.
+
+    Parameters
+    ----------
+    df: pandas.DataFrame
+        DataFrame containing the stock data.
+    short_window: int
+        Window size for the short moving average.
+    long_window: int
+        Window size for the long moving average.
+    signal_window: int
+        Window size for the signal line.
+
+    Returns
+    -------
+    pandas.DataFrame
+        DataFrame containing the MACD of a stock.
+    """
+    # Calculate the short moving average of the stock
+    df['Short_MA'] = df['Close'].rolling(window=short_window).mean()
+    # Calculate the long moving average of the stock
+    df['Long_MA'] = df['Close'].rolling(window=long_window).mean()
+    # Calculate the MACD of the stock
+    df['MACD'] = df['Short_MA'] - df['Long_MA']
+    # Calculate the signal line of the MACD
+    df['Signal'] = df['MACD'].rolling(window=signal_window).mean()
+    # Return the MACD of the stock
+    return df
+
+
 def cal_ichimoku(data, tenkan_window=9, kijun_window=26, senkou_span_b_window=52):
     """
     Calculate the Ichimoku Kinko Hyo (Ichimoku) indicator.

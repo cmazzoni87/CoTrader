@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4a8e9cc4-354d-48b4-ab17-41bc15b41383" name="Default Changelist" comment="init commit">
-      <change afterPath="$PROJECT_DIR$/.idea/csv-plugin.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DoTechnicals/core_fundamentals.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/GetData/get_stocks.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/variables.py" afterDir="false" />
+    <list default="true" id="4a8e9cc4-354d-48b4-ab17-41bc15b41383" name="Default Changelist" comment="first data functions created">
+      <change afterPath="$PROJECT_DIR$/src/GetData/fetch_index.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/PorfolioBuilder/portfolio_optimizer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/csv-plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/csv-plugin.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DoTechnicals/core_fundamentals.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/DoTechnicals/core_fundamentals.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GetData/get_stocks.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GetData/fetch_sec.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,8 +45,8 @@
       <recent name="C:\Users\cmazz\PycharmProjects\CoTrader\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.get_stocks">
-    <configuration name="get_stocks" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.portfolio_optimizer">
+    <configuration name="fetch_sec (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="CoTrader" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -57,7 +58,28 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/GetData/get_stocks.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/GetData/fetch_sec.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="fetch_sec" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="CoTrader" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/GetData" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="C:\Users\cmazz\PycharmProjects\CoTrader\src\GetData\fetch_sec.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -87,9 +109,32 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="portfolio_optimizer" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="CoTrader" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/PorfolioBuilder" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/PorfolioBuilder/portfolio_optimizer.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.get_stocks" />
+        <item itemvalue="Python.portfolio_optimizer" />
+        <item itemvalue="Python.fetch_sec (1)" />
+        <item itemvalue="Python.fetch_sec_data" />
       </list>
     </recent_temporary>
   </component>
@@ -109,7 +154,14 @@
       <option name="project" value="LOCAL" />
       <updated>1643662208802</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="first data functions created">
+      <created>1643688723014</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1643688723015</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -125,7 +177,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="init commit" />
+    <MESSAGE value="first data functions created" />
+    <option name="LAST_COMMIT_MESSAGE" value="first data functions created" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -136,14 +189,19 @@
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/GetData/get_stocks.py</url>
-          <line>28</line>
-          <option name="timeStamp" value="16" />
+          <url>file://$PROJECT_DIR$/src/PorfolioBuilder/portfolio_optimizer.py</url>
+          <line>86</line>
+          <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/GetData/get_stocks.py</url>
-          <line>23</line>
-          <option name="timeStamp" value="17" />
+          <url>file://$PROJECT_DIR$/src/PorfolioBuilder/portfolio_optimizer.py</url>
+          <line>29</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/PorfolioBuilder/portfolio_optimizer.py</url>
+          <line>34</line>
+          <option name="timeStamp" value="22" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
