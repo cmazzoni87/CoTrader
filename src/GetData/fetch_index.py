@@ -32,9 +32,9 @@ def get_ticker_list(days_to_stale: int = 7) -> list:
     else:
         nasdaq = get_sec_index()
         nasdaq.to_csv(nasdaq_path)
-    ##
-    nasdaq = nasdaq[nasdaq['Symbol'].isin(['CALX', 'TSLA', 'RGEN', 'LLY', 'AMD', 'NFLX', 'COST', 'BJ', 'WING', 'G',
-                                           'CBRE'])]
-    ##
+    # ##
+    # nasdaq = nasdaq[nasdaq['Symbol'].isin(['CALX', 'TSLA', 'RGEN', 'LLY', 'AMD', 'NFLX', 'COST', 'BJ', 'WING', 'G',
+    #                                        'CBRE'])]
+    # ##
     tickers = nasdaq[['Symbol', 'Industry']].values.tolist()
     return tickers

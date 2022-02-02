@@ -14,9 +14,11 @@ def save_to_csv_from_yahoo(tick: str, cherry_pick: bool = True) -> any:
     # Reads data into a dataframe
     try:
         stock = yf.Ticker(tick)
-        df = stock.history(period='max')
+        df = stock.history(period='5y')
     except Exception as e:
         print(e)
+        return None
+    if df.shape[0] < 256:
         return None
     df['DailyReturn'] = daily_return(df['Close'])
     df['CumulativeReturn'] = cumulative_return(df['DailyReturn'])
@@ -42,8 +44,18 @@ def init_get_stock_data() -> None:
     sector_cum_returns = defaultdict(list)
     for ticker, sector in nasdaq_tickers:
         # remove non alphanumeric characters using regex
-        sector = re.sub(r'[^a-zA-Z0-9]', '', sector)
-        sector_cum_returns[sector].append([ticker, save_to_csv_from_yahoo(ticker)])
+        try:
+            sector = re.sub(r'[^a-zA-Z0-9]', '', sector)
+        except Exception as e:
+            print(sector)
+            print(e)
+            continue
+        result = save_to_csv_from_yahoo(ticker)
+        if result is not None:
+            sector_cum_returns[sector].append([ticker, result])
+        else:
+            print(ticker + ' failed')
     save_sector_performance(sector_cum_returns)
+
 
 init_get_stock_data()

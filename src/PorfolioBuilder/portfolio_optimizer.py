@@ -4,22 +4,6 @@ from datetime import datetime
 from variables import *
 
 
-def markowitz_portfolio_optimizer(returns, cov_matrix, weights=None):
-    '''
-    Function to optimize the portfolio using Markowitz method.
-    '''
-    if weights is None:
-        weights = np.ones(len(returns.columns)) / len(returns.columns)
-    weights = np.array(weights)
-    weights /= np.sum(weights)
-    cov_matrix = np.array(cov_matrix)
-    returns = np.array(returns)
-    # n = len(returns)
-    mu = np.sum(returns * weights)
-    sigma = np.sqrt(np.dot(weights.T, np.dot(cov_matrix, weights)))
-    return mu, sigma
-
-
 def compile_fields_from_csv(security_list: list, field: str, start_date: datetime, end_date: datetime) -> pd.DataFrame:
     sec_returns = dict()
     for sec in security_list:
@@ -94,7 +78,8 @@ if __name__ == '__main__':
     trade_period = 252  # Average trading days per year
 
     prices = compile_fields_from_csv(stonks, 'Close', START_DATE, END_DATE)
-    # cum_returns = compile_fields_from_csv(stonks, ' CumulativeReturn', START_DATE, END_DATE)
+    # cum_returns = compile_fields_from_csv(stonks, 'CumulativeReturn', START_DATE, END_DATE)
+
     returns = np.log(prices / prices.shift(1))
     mean_ret = returns.mean() * trade_period  # 252 average trading days per year
     returns_corr = returns.corr()
