@@ -1,10 +1,13 @@
 import time
 import requests
 import json
-from os.path import exists
+from os.path import exists, join
 import pandas as pd
 from variables import *
+from utilities import prep_dir
 
+DATA_PATH = prep_dir("C:\\", "Co_Trader_Files")
+MARKETS_DATA_PATH = prep_dir(DATA_PATH, "Markets")
 
 def get_sec_index() -> pd.DataFrame:
     url = 'https://api.nasdaq.com/api/screener/stocks?tableonly=true&limit=25&offset=0&download=true'
@@ -18,9 +21,9 @@ def get_sec_index() -> pd.DataFrame:
     securities = securities[securities['Sector'] != '']
     return securities
 
-
 def get_ticker_list(days_to_stale: int = 7) -> list:
-    nasdaq_path = DATA_PATH + '\\Markets\\NASDAQ.csv'
+    nasdaq_path = join(DATA_PATH,"NASDAQ.csv")
+    print(nasdaq_path)
     if exists(nasdaq_path):
         creation_time = os.path.getctime(nasdaq_path)
         current_time = time.time()

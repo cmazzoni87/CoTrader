@@ -1,16 +1,23 @@
+import os,sys
+sys.path.insert(0, os.path.abspath('..'))
 import pandas as pd
 import numpy as np
 from datetime import datetime
 from variables import *
+from utilities import prep_dir
+import os
 
+DATA_PATH = prep_dir("C:\\", "Co_Trader_Files")
+SEC_DATA_PATH = prep_dir(DATA_PATH, "SecData")
 
 def compile_fields_from_csv(security_list: list, field: str, start_date: datetime, end_date: datetime) -> pd.DataFrame:
     sec_returns = dict()
+
     for sec in security_list:
-        sec_info = pd.read_csv(DATA_PATH + '\\SecData\\' + sec + '.csv')
+        sec_info = pd.read_csv(os.path.join(SEC_DATA_PATH, "{}.csv".format(sec)))
         sec_info['Date'] = pd.to_datetime(sec_info['Date'])
         sec_info = sec_info[(sec_info['Date'] >= start_date) & (sec_info['Date'] <= end_date)]
-        sec_returns[sec] = sec_info[field].tolist()
+        sec_returns[sec] = sec_info[field]#.tolist()
     return pd.DataFrame(sec_returns)
 
 
@@ -31,7 +38,6 @@ def get_port_shares(one_price, force_one, wts, prices):
 
         # Gets number of shares to buy and adds them to list
         num_shares = int(max_price / prices[i])
-
         # If the user wants to force buying one share do it
         if (force_one & (num_shares == 0)):
             num_shares = 1
@@ -69,6 +75,9 @@ def get_port_val(prices):
 
 if __name__ == '__main__':
     stonks = ['CALX', 'TSLA', 'RGEN', 'LLY', 'AMD', 'NFLX', 'COST', 'BJ', 'WING', 'G', 'CBRE']
+    stonks = [os.path.splitext(x)[-2] for x in os.listdir(SEC_DATA_PATH) if
+                      (os.path.splitext(x)[-1] == '.csv' and os.path.splitext(x)[-2].upper() in stonks)]
+
     num_stocks = len(stonks)
     S_DATE = '2019-02-01'
     E_DATE = '2022-12-06'
@@ -110,7 +119,8 @@ if __name__ == '__main__':
         p_vol.append(vol_1)
 
         # Get Sharpe ratio
-        SR_1 = (ret_1 - risk_free_rate) / vol_1
+        # This is dividing by 0
+        SR_1 = (((ret_1 - risk_free_rate) / vol_1) if vol_1 != 0 else 0)
         p_SR.append(SR_1)
 
         # Store the weights for each portfolio
