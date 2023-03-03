@@ -21,16 +21,40 @@
       </select>
     </div>
     <!--The second row-->
-    <div class ="row mt-4 mb-4" >
+    <!--The chart-->
 
-      <div class ="col gx-6">
+    <div class ="row gy-6 mt-4 mb-4">
 
+      <div class ="col">
+        <div class = "row">
         <canvas id="myChart" style="width:100%;max-width:700px;border:1px solid #000000;"> </canvas>
       </div>
-
-      <div class ="col gx-6">
+        <div class = "row" >
+          <div class ="btn-group d-flex" role="group" style="padding:0";>
+          <!--
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+          <label class="btn btn-outline-primary w-100" for="btnradio1">1 Day</label>
+          -->
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" onClick = "updateChart(7)" checked>
+            <label class="btn btn-outline-primary w-100" for="btnradio2">1 Week</label>
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" onClick = "updateChart(30)" checked>
+            <label class="btn btn-outline-primary w-100" for="btnradio3">1 Month</label>
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off" onClick = "updateChart(90)" checked>
+            <label class="btn btn-outline-primary w-100" for="btnradio4">6 Month</label>
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off" onClick = "updateChart(252)" checked>
+            <label class="btn btn-outline-primary w-100" for="btnradio5">1 Year</label>
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio6" autocomplete="off" onClick = "updateChart(0)" checked>
+            <label class="btn btn-outline-primary w-100" for="btnradio6">All<label>
+        </div>
+        </div>
+      </div>
+    <!--End of chart-->
+      <div class ="col offset-sm-1">
         <div class = "row">
-        <select class="form-select" id="stocks"></select>
+        <select class="form-select" id="stocks">
+          <option value ="All" onclick = "displayStatistics()">All</option>
+        </select>
+
       </div>
       <div class ="row">
         <div class = "d-grid gap-2">
@@ -40,6 +64,7 @@
       </div>
       </div>
     </div>
+
 
     <!--The third row-->
     <div class ="row">
@@ -58,7 +83,7 @@
       </div>
 
       <div class ="col gx-6" id = "statistics"style="border:1px solid black;">
-        <div class = row>
+        <div class = row id="Portfolio_Statistics_Row">
           <h4>Portfolio Statistics</h5>
             <h5>Portfolio Value</h5>
             <p id="portfolio_value"></p>
@@ -67,7 +92,8 @@
             <h5>Voltality</h5>
             <p id="portfolio_volume"></p>
         </div>
-        <div class = row>
+
+        <div class = row id ="Stock_Statistics_Row_1" style="display:none">
         <h4>Stock Statistics</h5>
         <h5>Total Share Cost</h5>
         <p id ="total_cost"></p>
@@ -83,9 +109,9 @@
         <h5>Weight</h5>
         <p id="weight_of_stock"></p>
     </div>
-
       </div>
-      <div class="row">
+
+      <div class="row" id ="Stock_Statistics_Row_2" style="display:none">
         <div class = "col gx-6">
           <h5>High</h5>
           <p id ="high"></p>

@@ -1,13 +1,40 @@
     var xhr = null;
     var arr = null;
     var statistics_data = null;
-
+    var chart_data = null;
     getXmlHttpRequestObject = function () {
         if (!xhr) {
             xhr = new XMLHttpRequest();
         }
         return xhr;
     };
+    var n = 30;
+    var data ={};
+    var myChart = new Chart("myChart", {
+      type: "line",
+      data,
+      options: {
+        plugins:{
+        legend: {
+          display: false
+        }
+      },
+        scales: {
+          x: {
+            grid: {
+                tickColor: "red"
+            },
+            ticks: {
+              callback: function(value, index, values)  {
+                  if(index % n === 0){
+                    return data.labels[index].slice(5,17);
+                  }
+                }
+              }
+            }
+        }
+      }
+});
 
     function getPorfolios() {
       xhr = getXmlHttpRequestObject();
@@ -38,13 +65,12 @@
     var index = arr.findIndex(obj => obj.name==porfolioName);
     var select = document.getElementById("stocks");
     select.size=6;
-    select.innerHTML='';
 
   for(let i=0;i<arr[index].stonks.length;i++){
      var l = document.createElement("option");
      l.value= arr[index].stonks[i];
      l.innerHTML = arr[index].stonks[i];
-     l.onclick = displayStockStatistics;
+     l.onclick = displayStatistics;
           select.appendChild(l);
     }
     getStatistics();
@@ -56,7 +82,7 @@
       xhr.onreadystatechange = loadNews;
       url = "http://localhost:5000/news"
       var select = document.getElementById("stocks");
-      for (let i = 0; i < select.length; i++) {
+      for (let i = 1; i < select.length; i++) {
           if (url.indexOf('?') === -1) {
               url = `${url}?array[]=${select.options[i].text}`
           } else {
@@ -92,6 +118,7 @@
          getChartData()
        }
     }
+
     function display(element,data){
       if(data){
         element.innerHTML=data;
@@ -107,7 +134,7 @@
       // asynchronous requests
       var select = document.getElementById("stocks");
       url = "http://localhost:5000/statistics";
-      for (let i = 0; i < select.length; i++) {
+      for (let i = 1; i < select.length; i++) {
           if (url.indexOf('?') === -1) {
               url = `${url}?array[]=${select.options[i].text}`
           } else {
@@ -122,23 +149,29 @@
       if (xhr.readyState == 4 && xhr.status == 200){
         statistics_data = JSON.parse(xhr.responseText);
         console.log(statistics_data);
-        var portfolio_value = document.getElementById("portfolio_value");
-      //  portfolio_value.value = statistics_data.portfolio_Data.total_cost;
-        //portfolio_value.innerHTML = statistics_data.portfolio_Data.total_cost;
-        display(portfolio_value,statistics_data.portfolio_Data.total_cost);
-
-        var portfolio_return = document.getElementById("portfolio_return");
-      //  portfolio_return.value = statistics_data.portfolio_Data.return;
-      //  portfolio_return.innerHTML = statistics_data.portfolio_Data.return;
-        display(portfolio_return,statistics_data.portfolio_Data.return);
-
-        var portfolio_volume = document.getElementById("portfolio_volume");
-      //  portfolio_return.value = statistics_data.portfolio_Data.return;
-      //  portfolio_volume.innerHTML = statistics_data.portfolio_Data.voltality;
-        display(portfolio_volume,statistics_data.portfolio_Data.voltality);
+        displayPortfolioStatistics()
         getNews();
       }
     }
+
+    function displayPortfolioStatistics(){
+      var portfolio_value = document.getElementById("portfolio_value");
+    //  portfolio_value.value = statistics_data.portfolio_Data.total_cost;
+      //portfolio_value.innerHTML = statistics_data.portfolio_Data.total_cost;
+      display(portfolio_value,statistics_data.portfolio_Data.total_cost);
+
+      var portfolio_return = document.getElementById("portfolio_return");
+    //  portfolio_return.value = statistics_data.portfolio_Data.return;
+    //  portfolio_return.innerHTML = statistics_data.portfolio_Data.return;
+      display(portfolio_return,statistics_data.portfolio_Data.return);
+
+      var portfolio_volume = document.getElementById("portfolio_volume");
+    //  portfolio_return.value = statistics_data.portfolio_Data.return;
+    //  portfolio_volume.innerHTML = statistics_data.portfolio_Data.voltality;
+      display(portfolio_volume,statistics_data.portfolio_Data.voltality);
+    }
+
+
     function displayStockStatistics(){
       var select = document.getElementById("stocks");
       var value = select.value;
@@ -184,12 +217,31 @@
       }
     }
 
+    function displayStatistics(){
+      var select = document.getElementById("stocks");
+      var value = select.value;
+      var x = document.getElementById("Portfolio_Statistics_Row");
+      var y1 = document.getElementById("Stock_Statistics_Row_1");
+      var y2= document.getElementById("Stock_Statistics_Row_2");
+      if(value === "All"){
+          x.style.display='';
+          y1.style.display='none';
+          y2.style.display='none';
+      }
+      else{
+        displayStockStatistics()
+          x.style.display='none';
+        y1.style.display='';
+        y2.style.display='';
+      }
+    }
+
     function getChartData(){
       xhr = getXmlHttpRequestObject();
       xhr.onreadystatechange = loadChartData;
       url = "http://localhost:5000/chart"
       var select = document.getElementById("stocks");
-      for (let i = 0; i < select.length; i++) {
+      for (let i = 1; i < select.length; i++) {
           // Check to see if the URL has a query string already
           if (url.indexOf('?') === -1) {
               url = `${url}?array[]=${select.options[i].text}`
@@ -203,13 +255,10 @@
 
     function loadChartData(){
       if (xhr.readyState == 4 && xhr.status == 200){
-        var chart_data = JSON.parse(xhr.responseText)
+        chart_data = JSON.parse(xhr.responseText)
         console.log(chart_data);
         console.log(chart_data.portfolio_chart_data.dates);
-        const data= {
-
-                    //chart_data.portfolio_chart_data.dates,
-                    //labels: ["jan","feb","mar","april","may","jun","jul","aug","sep","oct","nov","dec"],
+        data= {
                     labels: chart_data.portfolio_chart_data.dates,
                     datasets: [{
                       fill: false,
@@ -219,31 +268,42 @@
                       data: chart_data.portfolio_chart_data.data
                     }]
                   };
-        var myChart = new Chart("myChart", {
-          type: "line",
-          data,
-          options: {
-            plugins:{
-            legend: {
-              display: false
-            }
-          },
-            scales: {
-              x: {
-                grid: {
-                    tickColor: "red"
-                },
-                ticks: {
-                  callback: function(value, index, values)  {
-                      if(index%30 === 0){
-                        return data.labels[index].slice(5,17);
-                      }
-                    }
-                  }
-                }
-            }
-          }
-    });
+        myChart.data = data;
+        myChart.update();
       }
 
     }
+
+    function updateChart(scale){
+        var select = document.getElementById("stocks");
+        var value = select.value;
+        var text = select.options[select.selectedIndex].text
+
+        var data_points = [];
+        var lables = [];
+        num_of_data_points= chart_data.portfolio_chart_data.data.length;
+        num_of_dates = chart_data.portfolio_chart_data.dates.length;
+        if(scale != 0){
+          data_points = chart_data.portfolio_chart_data.data.slice(num_of_data_points-scale,num_of_data_points);
+          lables = chart_data.portfolio_chart_data.dates.slice(num_of_dates-scale,num_of_dates);
+        }
+        else{
+          data_points = chart_data.portfolio_chart_data.data;
+          lables = chart_data.portfolio_chart_data.dates;
+        }
+
+
+        data= {
+                    labels: lables,
+                    datasets: [{
+                      fill: false,
+                      lineTension: 0,
+                      borderColor: 'rgb(75, 192, 192)',
+                      pointRadius: 0,
+                      data: data_points
+                    }]
+                  };
+        myChart.data = data;
+        n = 1;
+        myChart.update();
+        }
